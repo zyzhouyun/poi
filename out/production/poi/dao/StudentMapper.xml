@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="pojo.Student">
+    <id column="studentID" jdbcType="INTEGER" property="studentID" />
+    <result column="roomID" jdbcType="INTEGER" property="roomID" />
+    <result column="berthID" jdbcType="INTEGER" property="berthID" />
+    <result column="sname" jdbcType="VARCHAR" property="sname" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="checkInDate" jdbcType="DATE" property="checkInDate" />
+    <result column="checkOutDate" jdbcType="DATE" property="checkOutDate" />
+    <result column="classNo" jdbcType="INTEGER" property="classNo" />
+    <result column="feeDate" jdbcType="INTEGER" property="feeDate" />
+    <result column="checkState" jdbcType="VARCHAR" property="checkState" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    studentID, roomID, berthID, sname, sex, phone, checkInDate, checkOutDate, classNo, 
+    feeDate, checkState
+  </sql>
+  <select id="selectByExample" parameterType="pojo.StudentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where studentID = #{studentID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from student
+    where studentID = #{studentID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.StudentExample">
+    delete from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Student">
+    insert into student (studentID, roomID, berthID, 
+      sname, sex, phone, 
+      checkInDate, checkOutDate, classNo, 
+      feeDate, checkState)
+    values (#{studentID,jdbcType=INTEGER}, #{roomID,jdbcType=INTEGER}, #{berthID,jdbcType=INTEGER}, 
+      #{sname,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
+      #{checkInDate,jdbcType=DATE}, #{checkOutDate,jdbcType=DATE}, #{classNo,jdbcType=INTEGER}, 
+      #{feeDate,jdbcType=INTEGER}, #{checkState,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Student">
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="studentID != null">
+        studentID,
+      </if>
+      <if test="roomID != null">
+        roomID,
+      </if>
+      <if test="berthID != null">
+        berthID,
+      </if>
+      <if test="sname != null">
+        sname,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="checkInDate != null">
+        checkInDate,
+      </if>
+      <if test="checkOutDate != null">
+        checkOutDate,
+      </if>
+      <if test="classNo != null">
+        classNo,
+      </if>
+      <if test="feeDate != null">
+        feeDate,
+      </if>
+      <if test="checkState != null">
+        checkState,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="studentID != null">
+        #{studentID,jdbcType=INTEGER},
+      </if>
+      <if test="roomID != null">
+        #{roomID,jdbcType=INTEGER},
+      </if>
+      <if test="berthID != null">
+        #{berthID,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null">
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInDate != null">
+        #{checkInDate,jdbcType=DATE},
+      </if>
+      <if test="checkOutDate != null">
+        #{checkOutDate,jdbcType=DATE},
+      </if>
+      <if test="classNo != null">
+        #{classNo,jdbcType=INTEGER},
+      </if>
+      <if test="feeDate != null">
+        #{feeDate,jdbcType=INTEGER},
+      </if>
+      <if test="checkState != null">
+        #{checkState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.StudentExample" resultType="java.lang.Long">
+    select count(*) from student
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update student
+    <set>
+      <if test="record.studentID != null">
+        studentID = #{record.studentID,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomID != null">
+        roomID = #{record.roomID,jdbcType=INTEGER},
+      </if>
+      <if test="record.berthID != null">
+        berthID = #{record.berthID,jdbcType=INTEGER},
+      </if>
+      <if test="record.sname != null">
+        sname = #{record.sname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkInDate != null">
+        checkInDate = #{record.checkInDate,jdbcType=DATE},
+      </if>
+      <if test="record.checkOutDate != null">
+        checkOutDate = #{record.checkOutDate,jdbcType=DATE},
+      </if>
+      <if test="record.classNo != null">
+        classNo = #{record.classNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.feeDate != null">
+        feeDate = #{record.feeDate,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkState != null">
+        checkState = #{record.checkState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update student
+    set studentID = #{record.studentID,jdbcType=INTEGER},
+      roomID = #{record.roomID,jdbcType=INTEGER},
+      berthID = #{record.berthID,jdbcType=INTEGER},
+      sname = #{record.sname,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      checkInDate = #{record.checkInDate,jdbcType=DATE},
+      checkOutDate = #{record.checkOutDate,jdbcType=DATE},
+      classNo = #{record.classNo,jdbcType=INTEGER},
+      feeDate = #{record.feeDate,jdbcType=INTEGER},
+      checkState = #{record.checkState,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Student">
+    update student
+    <set>
+      <if test="roomID != null">
+        roomID = #{roomID,jdbcType=INTEGER},
+      </if>
+      <if test="berthID != null">
+        berthID = #{berthID,jdbcType=INTEGER},
+      </if>
+      <if test="sname != null">
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="checkInDate != null">
+        checkInDate = #{checkInDate,jdbcType=DATE},
+      </if>
+      <if test="checkOutDate != null">
+        checkOutDate = #{checkOutDate,jdbcType=DATE},
+      </if>
+      <if test="classNo != null">
+        classNo = #{classNo,jdbcType=INTEGER},
+      </if>
+      <if test="feeDate != null">
+        feeDate = #{feeDate,jdbcType=INTEGER},
+      </if>
+      <if test="checkState != null">
+        checkState = #{checkState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where studentID = #{studentID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Student">
+    update student
+    set roomID = #{roomID,jdbcType=INTEGER},
+      berthID = #{berthID,jdbcType=INTEGER},
+      sname = #{sname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      checkInDate = #{checkInDate,jdbcType=DATE},
+      checkOutDate = #{checkOutDate,jdbcType=DATE},
+      classNo = #{classNo,jdbcType=INTEGER},
+      feeDate = #{feeDate,jdbcType=INTEGER},
+      checkState = #{checkState,jdbcType=VARCHAR}
+    where studentID = #{studentID,jdbcType=INTEGER}
+  </update>
+</mapper>

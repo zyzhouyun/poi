@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.FloorMapper">
+  <resultMap id="BaseResultMap" type="pojo.Floor">
+    <id column="floorID" jdbcType="INTEGER" property="floorID" />
+    <result column="blockID" jdbcType="INTEGER" property="blockID" />
+    <result column="floorName" jdbcType="VARCHAR" property="floorName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    floorID, blockID, floorName
+  </sql>
+  <select id="selectByExample" parameterType="pojo.FloorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from floor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from floor
+    where floorID = #{floorID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from floor
+    where floorID = #{floorID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.FloorExample">
+    delete from floor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Floor">
+    insert into floor (floorID, blockID, floorName
+      )
+    values (#{floorID,jdbcType=INTEGER}, #{blockID,jdbcType=INTEGER}, #{floorName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Floor">
+    insert into floor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="floorID != null">
+        floorID,
+      </if>
+      <if test="blockID != null">
+        blockID,
+      </if>
+      <if test="floorName != null">
+        floorName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="floorID != null">
+        #{floorID,jdbcType=INTEGER},
+      </if>
+      <if test="blockID != null">
+        #{blockID,jdbcType=INTEGER},
+      </if>
+      <if test="floorName != null">
+        #{floorName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.FloorExample" resultType="java.lang.Long">
+    select count(*) from floor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update floor
+    <set>
+      <if test="record.floorID != null">
+        floorID = #{record.floorID,jdbcType=INTEGER},
+      </if>
+      <if test="record.blockID != null">
+        blockID = #{record.blockID,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorName != null">
+        floorName = #{record.floorName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update floor
+    set floorID = #{record.floorID,jdbcType=INTEGER},
+      blockID = #{record.blockID,jdbcType=INTEGER},
+      floorName = #{record.floorName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Floor">
+    update floor
+    <set>
+      <if test="blockID != null">
+        blockID = #{blockID,jdbcType=INTEGER},
+      </if>
+      <if test="floorName != null">
+        floorName = #{floorName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where floorID = #{floorID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Floor">
+    update floor
+    set blockID = #{blockID,jdbcType=INTEGER},
+      floorName = #{floorName,jdbcType=VARCHAR}
+    where floorID = #{floorID,jdbcType=INTEGER}
+  </update>
+</mapper>

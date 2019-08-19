@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.BerthMapper">
+  <resultMap id="BaseResultMap" type="pojo.Berth">
+    <id column="berthID" jdbcType="INTEGER" property="berthID" />
+    <result column="roomID" jdbcType="INTEGER" property="roomID" />
+    <result column="berthName" jdbcType="VARCHAR" property="berthName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    berthID, roomID, berthName
+  </sql>
+  <select id="selectByExample" parameterType="pojo.BerthExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from berth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from berth
+    where berthID = #{berthID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from berth
+    where berthID = #{berthID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.BerthExample">
+    delete from berth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Berth">
+    insert into berth (berthID, roomID, berthName
+      )
+    values (#{berthID,jdbcType=INTEGER}, #{roomID,jdbcType=INTEGER}, #{berthName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Berth">
+    insert into berth
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="berthID != null">
+        berthID,
+      </if>
+      <if test="roomID != null">
+        roomID,
+      </if>
+      <if test="berthName != null">
+        berthName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="berthID != null">
+        #{berthID,jdbcType=INTEGER},
+      </if>
+      <if test="roomID != null">
+        #{roomID,jdbcType=INTEGER},
+      </if>
+      <if test="berthName != null">
+        #{berthName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.BerthExample" resultType="java.lang.Long">
+    select count(*) from berth
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update berth
+    <set>
+      <if test="record.berthID != null">
+        berthID = #{record.berthID,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomID != null">
+        roomID = #{record.roomID,jdbcType=INTEGER},
+      </if>
+      <if test="record.berthName != null">
+        berthName = #{record.berthName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update berth
+    set berthID = #{record.berthID,jdbcType=INTEGER},
+      roomID = #{record.roomID,jdbcType=INTEGER},
+      berthName = #{record.berthName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Berth">
+    update berth
+    <set>
+      <if test="roomID != null">
+        roomID = #{roomID,jdbcType=INTEGER},
+      </if>
+      <if test="berthName != null">
+        berthName = #{berthName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where berthID = #{berthID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Berth">
+    update berth
+    set roomID = #{roomID,jdbcType=INTEGER},
+      berthName = #{berthName,jdbcType=VARCHAR}
+    where berthID = #{berthID,jdbcType=INTEGER}
+  </update>
+</mapper>

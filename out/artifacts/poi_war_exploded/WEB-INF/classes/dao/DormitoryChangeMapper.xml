@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.DormitoryChangeMapper">
+  <resultMap id="BaseResultMap" type="pojo.DormitoryChange">
+    <id column="changeID" jdbcType="INTEGER" property="changeID" />
+    <result column="outStudentID" jdbcType="INTEGER" property="outStudentID" />
+    <result column="inStudentID" jdbcType="INTEGER" property="inStudentID" />
+    <result column="changeDate" jdbcType="DATE" property="changeDate" />
+    <result column="stateID" jdbcType="INTEGER" property="stateID" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    changeID, outStudentID, inStudentID, changeDate, stateID
+  </sql>
+  <select id="selectByExample" parameterType="pojo.DormitoryChangeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dormitorychange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dormitorychange
+    where changeID = #{changeID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dormitorychange
+    where changeID = #{changeID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.DormitoryChangeExample">
+    delete from dormitorychange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.DormitoryChange">
+    insert into dormitorychange (changeID, outStudentID, inStudentID, 
+      changeDate, stateID)
+    values (#{changeID,jdbcType=INTEGER}, #{outStudentID,jdbcType=INTEGER}, #{inStudentID,jdbcType=INTEGER}, 
+      #{changeDate,jdbcType=DATE}, #{stateID,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.DormitoryChange">
+    insert into dormitorychange
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="changeID != null">
+        changeID,
+      </if>
+      <if test="outStudentID != null">
+        outStudentID,
+      </if>
+      <if test="inStudentID != null">
+        inStudentID,
+      </if>
+      <if test="changeDate != null">
+        changeDate,
+      </if>
+      <if test="stateID != null">
+        stateID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="changeID != null">
+        #{changeID,jdbcType=INTEGER},
+      </if>
+      <if test="outStudentID != null">
+        #{outStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="inStudentID != null">
+        #{inStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="changeDate != null">
+        #{changeDate,jdbcType=DATE},
+      </if>
+      <if test="stateID != null">
+        #{stateID,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.DormitoryChangeExample" resultType="java.lang.Long">
+    select count(*) from dormitorychange
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dormitorychange
+    <set>
+      <if test="record.changeID != null">
+        changeID = #{record.changeID,jdbcType=INTEGER},
+      </if>
+      <if test="record.outStudentID != null">
+        outStudentID = #{record.outStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="record.inStudentID != null">
+        inStudentID = #{record.inStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="record.changeDate != null">
+        changeDate = #{record.changeDate,jdbcType=DATE},
+      </if>
+      <if test="record.stateID != null">
+        stateID = #{record.stateID,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dormitorychange
+    set changeID = #{record.changeID,jdbcType=INTEGER},
+      outStudentID = #{record.outStudentID,jdbcType=INTEGER},
+      inStudentID = #{record.inStudentID,jdbcType=INTEGER},
+      changeDate = #{record.changeDate,jdbcType=DATE},
+      stateID = #{record.stateID,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.DormitoryChange">
+    update dormitorychange
+    <set>
+      <if test="outStudentID != null">
+        outStudentID = #{outStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="inStudentID != null">
+        inStudentID = #{inStudentID,jdbcType=INTEGER},
+      </if>
+      <if test="changeDate != null">
+        changeDate = #{changeDate,jdbcType=DATE},
+      </if>
+      <if test="stateID != null">
+        stateID = #{stateID,jdbcType=INTEGER},
+      </if>
+    </set>
+    where changeID = #{changeID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.DormitoryChange">
+    update dormitorychange
+    set outStudentID = #{outStudentID,jdbcType=INTEGER},
+      inStudentID = #{inStudentID,jdbcType=INTEGER},
+      changeDate = #{changeDate,jdbcType=DATE},
+      stateID = #{stateID,jdbcType=INTEGER}
+    where changeID = #{changeID,jdbcType=INTEGER}
+  </update>
+</mapper>

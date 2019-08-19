@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.LoginMapper">
+  <resultMap id="BaseResultMap" type="pojo.Login">
+    <id column="loginid" jdbcType="INTEGER" property="loginid" />
+    <result column="loginName" jdbcType="VARCHAR" property="loginName" />
+    <result column="passWord" jdbcType="VARCHAR" property="passWord" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="userName" jdbcType="VARCHAR" property="userName" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="iPhone" jdbcType="VARCHAR" property="iPhone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    loginid, loginName, passWord, state, type, userName, position, iPhone
+  </sql>
+  <select id="selectByExample" parameterType="pojo.LoginExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from login
+    where loginid = #{loginid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from login
+    where loginid = #{loginid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.LoginExample">
+    delete from login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Login">
+    insert into login (loginid, loginName, passWord, 
+      state, type, userName, 
+      position, iPhone)
+    values (#{loginid,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{iPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Login">
+    insert into login
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginid != null">
+        loginid,
+      </if>
+      <if test="loginName != null">
+        loginName,
+      </if>
+      <if test="passWord != null">
+        passWord,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="userName != null">
+        userName,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="iPhone != null">
+        iPhone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginid != null">
+        #{loginid,jdbcType=INTEGER},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null">
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="iPhone != null">
+        #{iPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.LoginExample" resultType="java.lang.Long">
+    select count(*) from login
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update login
+    <set>
+      <if test="record.loginid != null">
+        loginid = #{record.loginid,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginName != null">
+        loginName = #{record.loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passWord != null">
+        passWord = #{record.passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null">
+        userName = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.position != null">
+        position = #{record.position,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iPhone != null">
+        iPhone = #{record.iPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update login
+    set loginid = #{record.loginid,jdbcType=INTEGER},
+      loginName = #{record.loginName,jdbcType=VARCHAR},
+      passWord = #{record.passWord,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      userName = #{record.userName,jdbcType=VARCHAR},
+      position = #{record.position,jdbcType=VARCHAR},
+      iPhone = #{record.iPhone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Login">
+    update login
+    <set>
+      <if test="loginName != null">
+        loginName = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord != null">
+        passWord = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        userName = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="iPhone != null">
+        iPhone = #{iPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where loginid = #{loginid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Login">
+    update login
+    set loginName = #{loginName,jdbcType=VARCHAR},
+      passWord = #{passWord,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      userName = #{userName,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      iPhone = #{iPhone,jdbcType=VARCHAR}
+    where loginid = #{loginid,jdbcType=INTEGER}
+  </update>
+</mapper>

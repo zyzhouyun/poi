@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ApprovalMapper">
+  <resultMap id="BaseResultMap" type="pojo.Approval">
+    <id column="ApprovalID" jdbcType="INTEGER" property="approvalID" />
+    <result column="Loginid" jdbcType="INTEGER" property="loginid" />
+    <result column="handlerID" jdbcType="INTEGER" property="handlerID" />
+    <result column="changeID" jdbcType="INTEGER" property="changeID" />
+    <result column="ApprovalDate" jdbcType="DATE" property="approvalDate" />
+    <result column="submitDate" jdbcType="DATE" property="submitDate" />
+    <result column="ResultState" jdbcType="INTEGER" property="resultState" />
+    <result column="msg" jdbcType="VARCHAR" property="msg" />
+    <result column="approvaldormrecord" jdbcType="INTEGER" property="approvaldormrecord" />
+    <result column="Nomsg" jdbcType="VARCHAR" property="nomsg" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ApprovalID, Loginid, handlerID, changeID, ApprovalDate, submitDate, ResultState, 
+    msg, approvaldormrecord, Nomsg
+  </sql>
+  <select id="selectByExample" parameterType="pojo.ApprovalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from approval
+    where ApprovalID = #{approvalID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from approval
+    where ApprovalID = #{approvalID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.ApprovalExample">
+    delete from approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.Approval">
+    insert into approval (ApprovalID, Loginid, handlerID, 
+      changeID, ApprovalDate, submitDate, 
+      ResultState, msg, approvaldormrecord, 
+      Nomsg)
+    values (#{approvalID,jdbcType=INTEGER}, #{loginid,jdbcType=INTEGER}, #{handlerID,jdbcType=INTEGER}, 
+      #{changeID,jdbcType=INTEGER}, #{approvalDate,jdbcType=DATE}, #{submitDate,jdbcType=DATE}, 
+      #{resultState,jdbcType=INTEGER}, #{msg,jdbcType=VARCHAR}, #{approvaldormrecord,jdbcType=INTEGER}, 
+      #{nomsg,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.Approval">
+    insert into approval
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="approvalID != null">
+        ApprovalID,
+      </if>
+      <if test="loginid != null">
+        Loginid,
+      </if>
+      <if test="handlerID != null">
+        handlerID,
+      </if>
+      <if test="changeID != null">
+        changeID,
+      </if>
+      <if test="approvalDate != null">
+        ApprovalDate,
+      </if>
+      <if test="submitDate != null">
+        submitDate,
+      </if>
+      <if test="resultState != null">
+        ResultState,
+      </if>
+      <if test="msg != null">
+        msg,
+      </if>
+      <if test="approvaldormrecord != null">
+        approvaldormrecord,
+      </if>
+      <if test="nomsg != null">
+        Nomsg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="approvalID != null">
+        #{approvalID,jdbcType=INTEGER},
+      </if>
+      <if test="loginid != null">
+        #{loginid,jdbcType=INTEGER},
+      </if>
+      <if test="handlerID != null">
+        #{handlerID,jdbcType=INTEGER},
+      </if>
+      <if test="changeID != null">
+        #{changeID,jdbcType=INTEGER},
+      </if>
+      <if test="approvalDate != null">
+        #{approvalDate,jdbcType=DATE},
+      </if>
+      <if test="submitDate != null">
+        #{submitDate,jdbcType=DATE},
+      </if>
+      <if test="resultState != null">
+        #{resultState,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null">
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="approvaldormrecord != null">
+        #{approvaldormrecord,jdbcType=INTEGER},
+      </if>
+      <if test="nomsg != null">
+        #{nomsg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.ApprovalExample" resultType="java.lang.Long">
+    select count(*) from approval
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update approval
+    <set>
+      <if test="record.approvalID != null">
+        ApprovalID = #{record.approvalID,jdbcType=INTEGER},
+      </if>
+      <if test="record.loginid != null">
+        Loginid = #{record.loginid,jdbcType=INTEGER},
+      </if>
+      <if test="record.handlerID != null">
+        handlerID = #{record.handlerID,jdbcType=INTEGER},
+      </if>
+      <if test="record.changeID != null">
+        changeID = #{record.changeID,jdbcType=INTEGER},
+      </if>
+      <if test="record.approvalDate != null">
+        ApprovalDate = #{record.approvalDate,jdbcType=DATE},
+      </if>
+      <if test="record.submitDate != null">
+        submitDate = #{record.submitDate,jdbcType=DATE},
+      </if>
+      <if test="record.resultState != null">
+        ResultState = #{record.resultState,jdbcType=INTEGER},
+      </if>
+      <if test="record.msg != null">
+        msg = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.approvaldormrecord != null">
+        approvaldormrecord = #{record.approvaldormrecord,jdbcType=INTEGER},
+      </if>
+      <if test="record.nomsg != null">
+        Nomsg = #{record.nomsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update approval
+    set ApprovalID = #{record.approvalID,jdbcType=INTEGER},
+      Loginid = #{record.loginid,jdbcType=INTEGER},
+      handlerID = #{record.handlerID,jdbcType=INTEGER},
+      changeID = #{record.changeID,jdbcType=INTEGER},
+      ApprovalDate = #{record.approvalDate,jdbcType=DATE},
+      submitDate = #{record.submitDate,jdbcType=DATE},
+      ResultState = #{record.resultState,jdbcType=INTEGER},
+      msg = #{record.msg,jdbcType=VARCHAR},
+      approvaldormrecord = #{record.approvaldormrecord,jdbcType=INTEGER},
+      Nomsg = #{record.nomsg,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.Approval">
+    update approval
+    <set>
+      <if test="loginid != null">
+        Loginid = #{loginid,jdbcType=INTEGER},
+      </if>
+      <if test="handlerID != null">
+        handlerID = #{handlerID,jdbcType=INTEGER},
+      </if>
+      <if test="changeID != null">
+        changeID = #{changeID,jdbcType=INTEGER},
+      </if>
+      <if test="approvalDate != null">
+        ApprovalDate = #{approvalDate,jdbcType=DATE},
+      </if>
+      <if test="submitDate != null">
+        submitDate = #{submitDate,jdbcType=DATE},
+      </if>
+      <if test="resultState != null">
+        ResultState = #{resultState,jdbcType=INTEGER},
+      </if>
+      <if test="msg != null">
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="approvaldormrecord != null">
+        approvaldormrecord = #{approvaldormrecord,jdbcType=INTEGER},
+      </if>
+      <if test="nomsg != null">
+        Nomsg = #{nomsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ApprovalID = #{approvalID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.Approval">
+    update approval
+    set Loginid = #{loginid,jdbcType=INTEGER},
+      handlerID = #{handlerID,jdbcType=INTEGER},
+      changeID = #{changeID,jdbcType=INTEGER},
+      ApprovalDate = #{approvalDate,jdbcType=DATE},
+      submitDate = #{submitDate,jdbcType=DATE},
+      ResultState = #{resultState,jdbcType=INTEGER},
+      msg = #{msg,jdbcType=VARCHAR},
+      approvaldormrecord = #{approvaldormrecord,jdbcType=INTEGER},
+      Nomsg = #{nomsg,jdbcType=VARCHAR}
+    where ApprovalID = #{approvalID,jdbcType=INTEGER}
+  </update>
+</mapper>

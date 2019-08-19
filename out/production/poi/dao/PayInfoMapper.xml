@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.PayInfoMapper">
+  <resultMap id="BaseResultMap" type="pojo.PayInfo">
+    <id column="payID" jdbcType="INTEGER" property="payID" />
+    <result column="studentID" jdbcType="INTEGER" property="studentID" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="payDate" jdbcType="DATE" property="payDate" />
+    <result column="expireDate" jdbcType="DATE" property="expireDate" />
+    <result column="pstate" jdbcType="INTEGER" property="pstate" />
+    <result column="jiaofei" jdbcType="INTEGER" property="jiaofei" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    payID, studentID, money, payDate, expireDate, pstate, jiaofei
+  </sql>
+  <select id="selectByExample" parameterType="pojo.PayInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from payinfo
+    where payID = #{payID,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from payinfo
+    where payID = #{payID,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="pojo.PayInfoExample">
+    delete from payinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="pojo.PayInfo">
+    insert into payinfo (payID, studentID, money, 
+      payDate, expireDate, pstate, 
+      jiaofei)
+    values (#{payID,jdbcType=INTEGER}, #{studentID,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, 
+      #{payDate,jdbcType=DATE}, #{expireDate,jdbcType=DATE}, #{pstate,jdbcType=INTEGER}, 
+      #{jiaofei,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="pojo.PayInfo">
+    insert into payinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="payID != null">
+        payID,
+      </if>
+      <if test="studentID != null">
+        studentID,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="payDate != null">
+        payDate,
+      </if>
+      <if test="expireDate != null">
+        expireDate,
+      </if>
+      <if test="pstate != null">
+        pstate,
+      </if>
+      <if test="jiaofei != null">
+        jiaofei,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="payID != null">
+        #{payID,jdbcType=INTEGER},
+      </if>
+      <if test="studentID != null">
+        #{studentID,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="payDate != null">
+        #{payDate,jdbcType=DATE},
+      </if>
+      <if test="expireDate != null">
+        #{expireDate,jdbcType=DATE},
+      </if>
+      <if test="pstate != null">
+        #{pstate,jdbcType=INTEGER},
+      </if>
+      <if test="jiaofei != null">
+        #{jiaofei,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="pojo.PayInfoExample" resultType="java.lang.Long">
+    select count(*) from payinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update payinfo
+    <set>
+      <if test="record.payID != null">
+        payID = #{record.payID,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentID != null">
+        studentID = #{record.studentID,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=INTEGER},
+      </if>
+      <if test="record.payDate != null">
+        payDate = #{record.payDate,jdbcType=DATE},
+      </if>
+      <if test="record.expireDate != null">
+        expireDate = #{record.expireDate,jdbcType=DATE},
+      </if>
+      <if test="record.pstate != null">
+        pstate = #{record.pstate,jdbcType=INTEGER},
+      </if>
+      <if test="record.jiaofei != null">
+        jiaofei = #{record.jiaofei,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update payinfo
+    set payID = #{record.payID,jdbcType=INTEGER},
+      studentID = #{record.studentID,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=INTEGER},
+      payDate = #{record.payDate,jdbcType=DATE},
+      expireDate = #{record.expireDate,jdbcType=DATE},
+      pstate = #{record.pstate,jdbcType=INTEGER},
+      jiaofei = #{record.jiaofei,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="pojo.PayInfo">
+    update payinfo
+    <set>
+      <if test="studentID != null">
+        studentID = #{studentID,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="payDate != null">
+        payDate = #{payDate,jdbcType=DATE},
+      </if>
+      <if test="expireDate != null">
+        expireDate = #{expireDate,jdbcType=DATE},
+      </if>
+      <if test="pstate != null">
+        pstate = #{pstate,jdbcType=INTEGER},
+      </if>
+      <if test="jiaofei != null">
+        jiaofei = #{jiaofei,jdbcType=INTEGER},
+      </if>
+    </set>
+    where payID = #{payID,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="pojo.PayInfo">
+    update payinfo
+    set studentID = #{studentID,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER},
+      payDate = #{payDate,jdbcType=DATE},
+      expireDate = #{expireDate,jdbcType=DATE},
+      pstate = #{pstate,jdbcType=INTEGER},
+      jiaofei = #{jiaofei,jdbcType=INTEGER}
+    where payID = #{payID,jdbcType=INTEGER}
+  </update>
+</mapper>

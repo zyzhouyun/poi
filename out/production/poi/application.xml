@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--spring 配置文件拆分；classpath* ：可能有多个类似该名称文件-->
+
+    <!--注解扫描-->
+    <context:component-scan base-package="dao,service,utils"/> <!--#-->
+
+    <!--开启注解切面-->
+    <aop:aspectj-autoproxy/>
+
+
+    <!--引入外部属性文件配置的数据源；优点：更改属性文件配置，项目不需要重新编译-->
+    <!-- 整合mybatis步骤：配置数据源；会话工厂；mapper扫描 -->
+    <!-- dbcp数据源 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/schooldormitory"/> <!--#-->
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
+    </bean>
+
+    <!-- 配置SqlSessionFactoryBean -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--引入mybatis核心配置文件，弥补其他相关配置-->
+        <!--mybatis mapper文件的类路径-->
+        <property name="mapperLocations" value="classpath:dao/*.xml"/>
+        <!--分页插件-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageHelper"/>
+            </array>
+        </property>
+    </bean>
+
+    <!-- "daoMapper代理方式；basePackage":mapper所在包名，Spring会自动查找其下的 mapper
+    生成的mapper对象，id首字母小写-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="dao" /> <!--#-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+
+
+</beans>
